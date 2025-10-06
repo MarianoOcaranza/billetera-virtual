@@ -54,7 +54,7 @@ const Login: React.FC = () => {
             <br></br>
             <br></br>
             <div className = "flex justify-between">
-              <label htmlFor="password" className="text-neutral-700 font-bold">
+              <label htmlFor="password" className="text-neutral-700 font-bold pr-10">
                 Contraseña
               </label>
               <Link to=""

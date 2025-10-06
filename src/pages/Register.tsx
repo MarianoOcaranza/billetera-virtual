@@ -28,6 +28,11 @@ const Register: React.FC = () => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
+    if (formData.password.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres");
+      return;
+    }
+
     if (formData.password !== formData.rePassword) {
       setError("Las contraseñas no coinciden");
       return;
@@ -58,7 +63,7 @@ const Register: React.FC = () => {
               <div className="flex-1">
                 <label
                   htmlFor="firstName"
-                  className="block text-neutral-700 font-bold mb-2"
+                  className="block text-neutral-700 font-bold"
                 >
                   Nombre
                 </label>
@@ -69,14 +74,14 @@ const Register: React.FC = () => {
                   value={formData.firstName}
                   onChange={handleChange}
                   placeholder="Ingrese su nombre"
-                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3"
+                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2"
                   required
                 />
               </div>
               <div className="flex-1">
                 <label
                   htmlFor="lastName"
-                  className="block text-neutral-700 font-bold mb-2"
+                  className="block text-neutral-700 font-bold"
                 >
                   Apellido
                 </label>
@@ -87,7 +92,7 @@ const Register: React.FC = () => {
                   value={formData.lastName}
                   onChange={handleChange}
                   placeholder="Ingrese su apellido"
-                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3"
+                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2"
                   required
                 />
               </div>
@@ -96,7 +101,7 @@ const Register: React.FC = () => {
               <div className="flex-1">
                 <label
                   htmlFor="username"
-                  className="block text-neutral-700 font-bold mb-2"
+                  className="block text-neutral-700 font-bold mt-2"
                 >
                   Nombre de usuario
                 </label>
@@ -107,14 +112,14 @@ const Register: React.FC = () => {
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="Ingrese su nombre de usuario"
-                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3"
+                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2"
                   required
                 />
               </div>
               <div className="flex-1">
                 <label
                   htmlFor="dni"
-                  className="block text-neutral-700 font-bold mb-2"
+                  className="block text-neutral-700 font-bold mt-2"
                 >
                   DNI
                 </label>
@@ -125,7 +130,7 @@ const Register: React.FC = () => {
                   value={formData.dni}
                   onChange={handleChange}
                   placeholder="Ingrese su DNI"
-                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3"
+                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2"
                   required
                 />
               </div>
@@ -135,7 +140,7 @@ const Register: React.FC = () => {
               <div className="flex-1">
                 <label
                   htmlFor="email"
-                  className="block text-neutral-700 font-bold mb-2"
+                  className="block text-neutral-700 font-bold mt-2"
                 >
                   Email
                 </label>
@@ -146,7 +151,7 @@ const Register: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Ingrese su email"
-                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3"
+                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2"
                   required
                 />
               </div>
@@ -154,7 +159,7 @@ const Register: React.FC = () => {
                 <div className="relative">
                   <label
                     htmlFor="password"
-                    className="block text-neutral-700 font-bold mb-2"
+                    className="block text-neutral-700 font-bold mt-2"
                   >
                     Contraseña
                   </label>
@@ -165,12 +170,12 @@ const Register: React.FC = () => {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="Ingrese su contraseña"
-                    className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3 w-full"
+                    className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2 w-full"
                     required
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-5.5"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-4"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -181,36 +186,56 @@ const Register: React.FC = () => {
                 </span>
               </div>
             </div>
-            <div className="flex gap-4 mt-4">
-              <div className="flex-1 relative">
-                <label
-                  htmlFor="rePassword"
-                  className="block text-neutral-700 font-bold mb-2"
-                >
-                  Repetir Contraseña
-                </label>
-                <input
-                  type={showRePassword ? "text" : "password"}
-                  id="rePassword"
-                  name="rePassword"
-                  value={formData.rePassword}
-                  onChange={handleChange}
-                  placeholder="Repita su contraseña"
-                  className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3 w-full"
-                  required
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-5.5"
-                  onClick={() => setShowRePassword(!showRePassword)}
-                >
-                  {showRePassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
+            <div className="flex flex-row flex-space-between gap-4 mt-4">
+              <div className="flex flex-col flex-1 w-50">
+                <div className="relative">
+                  <label
+                    htmlFor="rePassword"
+                    className="block text-neutral-700 font-bold mt-2"
+                  >
+                    Repetir Contraseña
+                  </label>
+                  <input
+                    type={showRePassword ? "text" : "password"}
+                    id="rePassword"
+                    name="rePassword"
+                    value={formData.rePassword}
+                    onChange={handleChange}
+                    placeholder="Repita su contraseña"
+                    className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2 w-full"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-5"
+                    onClick={() => setShowRePassword(!showRePassword)}
+                  >
+                    {showRePassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+                <div className="flex-1">
+                  <label
+                    htmlFor="phone"
+                    className="block text-neutral-700 font-bold mt-2"
+                  >
+                    Teléfono
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Ingrese su teléfono"
+                    className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2 w-full"
+                    required
+                  />
+                </div>
               </div>
               <div className="flex-1">
                 <label
                   htmlFor="birthday"
-                  className="block text-neutral-700 font-bold mb-2"
+                  className="block text-neutral-700 font-bold mt-2"
                 >
                   Fecha de Nacimiento
                 </label>
@@ -220,27 +245,7 @@ const Register: React.FC = () => {
                   name="birthday"
                   value={formData.birthday}
                   onChange={handleChange}
-                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3"
-                  required
-                />
-              </div>
-            </div>
-            <div className="flex gap-4 mt-4">
-              <div className="flex-1">
-                <label
-                  htmlFor="phone"
-                  className="block text-neutral-700 font-bold mb-2"
-                >
-                  Teléfono
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Ingrese su teléfono"
-                  className="w-81 border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3"
+                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2"
                   required
                 />
               </div>
@@ -250,7 +255,7 @@ const Register: React.FC = () => {
                 className=" w-full border mt-4 p-2 rounded-lg bg-black text-white hover:bg-black/80 transition-colors duration-150 hover:scale-105 animated-shadow-md"
                 type="submit"
               >
-                Registarse
+                Registrarse
               </button>
             </div>
           </form>
