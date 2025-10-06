@@ -30,7 +30,6 @@ const Login: React.FC = ()=> {
         setError('');
         console.log(formData)  
         setFormData({ username: '', password: '' })
-      
     }
 
     return (
@@ -39,7 +38,7 @@ const Login: React.FC = ()=> {
             <div className = 'bg-white p-8 rounded-lg shadow-md'>
 
                 <h1 className = 'text-2xl font-bold mb-6 text-center'>
-                    Formulario de Inicio de Sesion
+                    Iniciar Sesión
                     </h1>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="username" className='text-neutral-700 font-bold'>
