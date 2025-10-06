@@ -30,7 +30,7 @@ const Header: React.FC = () => {
 				<>
 					{isMenuOpen ? (
 						<>
-							<nav className="flex absolute bg-indigo-900 p-4 w-full top-0 right-0 shadow-md flex-col">
+							<nav className="flex absolute bg-[#39AAAA] p-4 w-full top-0 right-0 shadow-md flex-col">
 								<X
 									onClick={() => setIsMenuOpen(false)}
 									className="self-end cursor-pointer"

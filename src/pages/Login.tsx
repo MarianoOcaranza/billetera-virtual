@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { Link } from "react-router";
 
 const Login: React.FC = () => {
   const [error, setError] = useState("");
@@ -52,10 +53,16 @@ const Login: React.FC = () => {
             />
             <br></br>
             <br></br>
-            <label htmlFor="password" className="text-neutral-700 font-bold">
-              Contraseña
-            </label>
-            <br></br>
+            <div className = "flex justify-between">
+              <label htmlFor="password" className="text-neutral-700 font-bold">
+                Contraseña
+              </label>
+              <Link to=""
+                className="text-sm text-black hover:underline float-right"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -64,25 +71,33 @@ const Login: React.FC = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Ingrese su contraseña"
-                className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3 w-full"
+                className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3 mb-4 w-full"
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-1.5"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
+
             {error && <p className="text-red-500">{error}</p>}
-            <br></br>
+            <div className="flex justify-center mt-2">
+              <Link
+                to="/register"
+                className="text-sm text-black hover:underline"
+              >
+                ¿No tenès una cuenta? Registrate
+              </Link>
+            </div>
             <br></br>
             <div className="flex justify-center">
               <button
                 className="w-full border p-2 rounded-lg bg-black text-white hover:bg-black/80 transition-colors duration-150 hover:scale-105 animated-shadow-md"
                 type="submit"
               >
-                Iniciar Sesion
+                Iniciar Sesión
               </button>
             </div>
           </form>
