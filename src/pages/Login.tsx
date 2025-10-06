@@ -35,7 +35,7 @@ const Login: React.FC = ()=> {
     return (
         <>
         <div className = 'min-h-screen flex items-center justify-center bg-[#f5f5f5]'>            
-            <div className = 'bg-white p-8 rounded-lg shadow-md'>
+            <div className = 'bg-white p-8 rounded-lg shadow-md lg:min-w-1/3 md:min-w-1/2 min-w-8/12'>
 
                 <h1 className = 'text-2xl font-bold mb-6 text-center'>
                     Iniciar Sesión
