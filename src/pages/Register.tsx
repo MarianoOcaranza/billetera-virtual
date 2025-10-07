@@ -4,13 +4,13 @@ import { useState } from "react";
 const Register: React.FC = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showRePassword, setShowRePassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     dni: "",
     email: "",
     password: "",
-    rePassword: "",
+    repeatPassword: "",
     firstName: "",
     lastName: "",
     birthday: "",
@@ -33,7 +33,7 @@ const Register: React.FC = () => {
       return;
     }
 
-    if (formData.password !== formData.rePassword) {
+    if (formData.password !== formData.repeatPassword) {
       setError("Las contraseñas no coinciden");
       return;
     }
@@ -44,7 +44,7 @@ const Register: React.FC = () => {
       dni: "",
       email: "",
       password: "",
-      rePassword: "",
+      repeatPassword: "",
       firstName: "",
       lastName: "",
       birthday: "",
@@ -190,16 +190,16 @@ const Register: React.FC = () => {
               <div className="flex flex-col flex-1 w-50">
                 <div className="relative">
                   <label
-                    htmlFor="rePassword"
+                    htmlFor="repeatPassword"
                     className="block text-neutral-700 font-bold mt-2"
                   >
                     Repetir Contraseña
                   </label>
                   <input
-                    type={showRePassword ? "text" : "password"}
-                    id="rePassword"
-                    name="rePassword"
-                    value={formData.rePassword}
+                    type={showRepeatPassword ? "text" : "password"}
+                    id="repeatPassword"
+                    name="repeatPassword"
+                    value={formData.repeatPassword}
                     onChange={handleChange}
                     placeholder="Repita su contraseña"
                     className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2 w-full"
@@ -208,9 +208,9 @@ const Register: React.FC = () => {
                   <button
                     type="button"
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-5"
-                    onClick={() => setShowRePassword(!showRePassword)}
+                    onClick={() => setShowRepeatPassword(!showRepeatPassword)}
                   >
-                    {showRePassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    {showRepeatPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
                 <div className="flex-1">
