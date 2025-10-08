@@ -18,7 +18,7 @@ const Header: React.FC = () => {
     
     return (
         <header
-			className="z-999 flex p-3 bg-indigo-900 max-h-[64px] text-white sticky top-0 md:justify-around justify-between"
+			className="z-999 flex p-3 bg-[#39AAAA] max-h-[64px] text-white sticky top-0 md:justify-around justify-between"
 		>
 			<div className="flex justify-center items-center cursor-pointer">
 				<Link to="/" className="text-xl font-extralight">
@@ -30,7 +30,7 @@ const Header: React.FC = () => {
 				<>
 					{isMenuOpen ? (
 						<>
-							<nav className="flex absolute bg-indigo-900 p-4 w-full top-0 right-0 shadow-md flex-col">
+							<nav className="flex absolute bg-[#39AAAA] p-4 w-full top-0 right-0 shadow-md flex-col">
 								<X
 									onClick={() => setIsMenuOpen(false)}
 									className="self-end cursor-pointer"
@@ -54,6 +54,13 @@ const Header: React.FC = () => {
 									<li className="hover:underline hover:text-lg cursor-pointer transition-all duration-300">
 										Contacto
 									</li>
+									<Link
+										to="/register"
+										onClick={() => setIsMenuOpen(false)}
+										className="hover:underline hover:text-lg cursor-pointer transition-all duration-300"
+									>
+										Registrar
+									</Link>
 								</ul>
 							</nav>
 						</>
@@ -77,6 +84,11 @@ const Header: React.FC = () => {
 							<li className="hover:underline hover:text-lg cursor-pointer transition-all duration-300">
 								Contacto
 							</li>
+							<Link 
+								to="/register" 
+								className="hover:underline hover:text-lg cursor-pointer transition-all duration-300">
+								Registrar
+							</Link>
 						</ul>
 					</nav>
 				</>
