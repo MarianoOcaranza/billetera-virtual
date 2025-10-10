@@ -1,31 +1,22 @@
 import React, { useState } from "react";
-import { ArrowRight, Mail } from "lucide-react";
+import {ArrowRight, Mail } from "lucide-react";
+import { useNavigate } from "react-router";
 
 const Recovery: React.FC = () => {
-  const [error, setError] = useState("");
-  const [step, setStep] = useState(1);
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
+  const [emailSent, setEmailSent] = useState("");
 
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleEmailSubmit = () => {
-    setError("");
-
+  const handleEmailSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    setMessage("Se ha enviado un código de verificación a su correo " + emailSent);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setStep(2);
-    }, 1500);
-
-    console.log("Email:", formData);
+      navigate("/login");
+    }, 3000);
+    
   };
 
   return (
@@ -38,9 +29,8 @@ const Recovery: React.FC = () => {
           id="contenedor"
           className="bg-white p-8 rounded-lg shadow-md  w-11/12 sm:w-8/12 md:w-6/12 lg:w-3/12"
         >
-          {step === 1 && (
-            <div className="space-y-6">
-              <div className="text-center">
+          <div className="space-y-6">
+            <div className="text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 shadow-md bg-[#E0F7F7]">
                   <Mail className="text-[#39AAAA]" size={32} />
                 </div>
@@ -60,8 +50,8 @@ const Recovery: React.FC = () => {
                     id="email"
                     name="email"
                     autoComplete="email"
-                    value={formData.email}
-                    onChange={handleChange}
+                    value={emailSent}
+                    onChange={(e) => setEmailSent(e.target.value)}
                     placeholder="Ingrese su correo electrónico"
                     className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-3 w-full"
                     disabled={loading}
@@ -75,16 +65,14 @@ const Recovery: React.FC = () => {
                   {loading ? "Enviando..." : "Enviar Código"}
                   <ArrowRight size={20} />
                 </button>
+                {message && <p className="text-green-500 text-center mt-4">{message}</p>}
               </form>
             </div>
-          )}
-          {step === 1 && (
             <div className="text-center mt-6">
               <a href="/login" className="text-sm text-black hover:underline">
                 Volver al inicio de sesión
               </a>
             </div>
-          )}
         </div>
       </div>
     </>
