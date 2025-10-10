@@ -71,6 +71,7 @@ const Register: React.FC = () => {
                   type="text"
                   id="firstName"
                   name="firstName"
+                  autoComplete="name"
                   value={formData.firstName}
                   onChange={handleChange}
                   placeholder="Ingrese su nombre"
@@ -89,6 +90,7 @@ const Register: React.FC = () => {
                   type="text"
                   id="lastName"
                   name="lastName"
+                  autoComplete="family-name"
                   value={formData.lastName}
                   onChange={handleChange}
                   placeholder="Ingrese su apellido"
@@ -109,6 +111,7 @@ const Register: React.FC = () => {
                   type="text"
                   id="username"
                   name="username"
+                  autoComplete="username"
                   value={formData.username}
                   onChange={handleChange}
                   placeholder="Ingrese su nombre de usuario"
@@ -127,6 +130,7 @@ const Register: React.FC = () => {
                   type="text"
                   id="dni"
                   name="dni"
+                  autoComplete="off"
                   value={formData.dni}
                   onChange={handleChange}
                   placeholder="Ingrese su DNI"
@@ -148,6 +152,7 @@ const Register: React.FC = () => {
                   type="email"
                   id="email"
                   name="email"
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Ingrese su email"
@@ -156,6 +161,28 @@ const Register: React.FC = () => {
                 />
               </div>
               <div className="flex-1">
+                <div className="relative">
+                  <label
+                  htmlFor="birthday"
+                  className="block text-neutral-700 font-bold mt-2"
+                >
+                  Fecha de Nacimiento
+                </label>
+                <input
+                  type="date"
+                  id="birthday"
+                  name="birthday"
+                  autoComplete="bday"
+                  value={formData.birthday}
+                  onChange={handleChange}
+                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2"
+                  required
+                />
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-row flex-space-between gap-4 mt-4">
+              <div className="flex flex-col flex-1 w-50">
                 <div className="relative">
                   <label
                     htmlFor="password"
@@ -167,6 +194,7 @@ const Register: React.FC = () => {
                     type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
+                    autoComplete="off"
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="Ingrese su contraseña"
@@ -175,43 +203,14 @@ const Register: React.FC = () => {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-4"
+                    className= "text-gray-500 absolute right-2 top-15 transform -translate-y-1/2"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
-                </div>
-                <span className="info text-neutral-500 text-sm">
+                  <span className="info text-neutral-500 text-sm">
                   La contraseña debe tener al menos 8 caracteres
                 </span>
-              </div>
-            </div>
-            <div className="flex flex-row flex-space-between gap-4 mt-4">
-              <div className="flex flex-col flex-1 w-50">
-                <div className="relative">
-                  <label
-                    htmlFor="repeatPassword"
-                    className="block text-neutral-700 font-bold mt-2"
-                  >
-                    Repetir Contraseña
-                  </label>
-                  <input
-                    type={showRepeatPassword ? "text" : "password"}
-                    id="repeatPassword"
-                    name="repeatPassword"
-                    value={formData.repeatPassword}
-                    onChange={handleChange}
-                    placeholder="Repita su contraseña"
-                    className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2 w-full"
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-5"
-                    onClick={() => setShowRepeatPassword(!showRepeatPassword)}
-                  >
-                    {showRepeatPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
                 </div>
                 <div className="flex-1">
                   <label
@@ -224,6 +223,7 @@ const Register: React.FC = () => {
                     type="tel"
                     id="phone"
                     name="phone"
+                    autoComplete="tel"
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Ingrese su teléfono"
@@ -232,27 +232,36 @@ const Register: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="flex-1">
+              <div className="flex-1 relative">
                 <label
-                  htmlFor="birthday"
-                  className="block text-neutral-700 font-bold mt-2"
-                >
-                  Fecha de Nacimiento
-                </label>
-                <input
-                  type="date"
-                  id="birthday"
-                  name="birthday"
-                  value={formData.birthday}
-                  onChange={handleChange}
-                  className="w-full border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2"
-                  required
-                />
+                    htmlFor="repeatPassword"
+                    className="block text-neutral-700 font-bold mt-2"
+                  >
+                    Repetir Contraseña
+                  </label>
+                  <input
+                    type={showRepeatPassword ? "text" : "password"}
+                    id="repeatPassword"
+                    name="repeatPassword"
+                    autoComplete="off"
+                    value={formData.repeatPassword}
+                    onChange={handleChange}
+                    placeholder="Repita su contraseña"
+                    className="border border-neutral-400 bg-white p-2 text-sm rounded-md shadow-sm focus:ring-2 focus:ring-current focus:outline-none mt-2 w-full"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="text-gray-500 absolute right-2 top-15 transform -translate-y-1/2"
+                    onClick={() => setShowRepeatPassword(!showRepeatPassword)}
+                  >
+                    {showRepeatPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
               </div>
             </div>
             <div className="flex-1 mt-4">
               <button
-                className=" w-full border mt-4 p-2 rounded-lg bg-black text-white hover:bg-black/80 transition-colors duration-150 hover:scale-105 animated-shadow-md"
+                className=" w-full border mt-4 p-2 rounded-lg bg-[#39AAAA] text-white hover:bg-[#2d8c8c] transition-colors duration-150 hover:scale-105 animated-shadow-md"
                 type="submit"
               >
                 Registrarse
@@ -267,3 +276,8 @@ const Register: React.FC = () => {
 };
 
 export default Register;
+
+
+
+
+

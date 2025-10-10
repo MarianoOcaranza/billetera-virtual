@@ -44,6 +44,7 @@ const Login: React.FC = () => {
             <br></br>
             <input
               type="text"
+              autoComplete="username"
               id="username"
               name="username"
               value={formData.username}
@@ -57,7 +58,7 @@ const Login: React.FC = () => {
               <label htmlFor="password" className="text-neutral-700 font-bold pr-10">
                 Contraseña
               </label>
-              <Link to=""
+              <Link to="/recovery"
                 className="text-sm text-black hover:underline float-right"
               >
                 ¿Olvidaste tu contraseña?
@@ -68,6 +69,7 @@ const Login: React.FC = () => {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
+                autoComplete="off"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Ingrese su contraseña"
@@ -88,13 +90,13 @@ const Login: React.FC = () => {
                 to="/register"
                 className="text-sm text-black hover:underline"
               >
-                ¿No tenès una cuenta? Registrate
+                ¿No tenés una cuenta? Registrate
               </Link>
             </div>
             <br></br>
             <div className="flex justify-center">
               <button
-                className="w-full border p-2 rounded-lg bg-black text-white hover:bg-black/80 transition-colors duration-150 hover:scale-105 animated-shadow-md"
+                className="w-full border p-2 rounded-lg bg-[#39AAAA] text-white hover:bg-[#2d8c8c] transition-colors duration-150 hover:scale-105 animated-shadow-md"
                 type="submit"
               >
                 Iniciar Sesión
