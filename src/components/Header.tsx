@@ -51,9 +51,6 @@ const Header: React.FC = () => {
 										className="hover:underline hover:text-lg cursor-pointer transition-all duration-300"									>
 										Login
 									</Link>
-									<li className="hover:underline hover:text-lg cursor-pointer transition-all duration-300">
-										Contacto
-									</li>
 									<Link
 										to="/register"
 										onClick={() => setIsMenuOpen(false)}
@@ -81,9 +78,6 @@ const Header: React.FC = () => {
 								className="hover:underline hover:text-lg cursor-pointer transition-all duration-300"							>
 								Login
 							</Link>
-							<li className="hover:underline hover:text-lg cursor-pointer transition-all duration-300">
-								Contacto
-							</li>
 							<Link 
 								to="/register" 
 								className="hover:underline hover:text-lg cursor-pointer transition-all duration-300">
