@@ -1,10 +1,12 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../stores/authStore";
 
 const Header: React.FC = () => {
 	const [isMobile, setIsMobile] = useState(true);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const {isLogged, logout} = useAuthStore();
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -15,15 +17,18 @@ const Header: React.FC = () => {
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
+	const handleLogout = () => {
+		logout();
+	}
+
 	return (
 		<header className="z-50 sticky top-0 w-full bg-[#39AAAA] shadow-lg">
 			<div className="flex items-center justify-between px-6 py-3 md:px-12">
-				{/* Logo / Marca */}
 				<Link
 					to="/"
 					className="text-2xl font-extrabold text-white hover:text-gray-100 transition-colors"
 				>
-					Billetera <span className="font-light">Virtual</span>
+					Che<span className="font-light">Wallet</span>
 				</Link>
 
 				{/* Botón menú móvil */}
@@ -58,6 +63,11 @@ const Header: React.FC = () => {
 							>
 								Registrar
 							</Link>
+							{isLogged && (
+								<button onClick={handleLogout}>
+									logout
+								</button>
+							)}
 						</ul>
 					</nav>
 				)}

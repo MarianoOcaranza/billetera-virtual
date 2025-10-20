@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { Link } from "react-router";
+import { useAuthStore } from "../stores/authStore";
 
 const Login: React.FC = () => {
-  const [error, setError] = useState("");
+  const [formError, setFormError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+  const {login, error, loading} = useAuthStore()
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const { name, value } = event.target;
@@ -18,14 +20,16 @@ const Login: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formData.username === "" || formData.password === "") {
-      setError("Por favor complete todos los campos");
+      setFormError("Por favor complete todos los campos");
       return;
     }
-    setError("");
-    console.log(formData);
+    setFormError("");
+    
+    await login(formData);
+
     setFormData({ username: "", password: "" });
   };
 
@@ -102,6 +106,12 @@ const Login: React.FC = () => {
             </div>
           </div>
 
+          {formError && (
+            <p className="text-red-500 text-sm text-center bg-red-50 border border-red-200 py-2 rounded-md">
+              {formError}
+            </p>
+          )}
+
           {error && (
             <p className="text-red-500 text-sm text-center bg-red-50 border border-red-200 py-2 rounded-md">
               {error}
@@ -110,10 +120,11 @@ const Login: React.FC = () => {
 
           <button
             type="submit"
-            className="mt-2 w-full flex justify-center items-center gap-2 border border-transparent p-3 rounded-xl bg-[#39AAAA] text-white font-semibold hover:bg-[#2d8c8c] transition-transform duration-150 hover:scale-105 shadow-md"
+            className={`mt-2 w-full flex justify-center items-center gap-2 border border-transparent p-3 rounded-xl ${loading ? 'bg-neutral-400': 'bg-[#39AAAA]'} text-white font-semibold hover:bg-[#2d8c8c] transition-transform duration-150 hover:scale-105 shadow-md`}
+            disabled={loading}
           >
             <LogIn size={20} />
-            Iniciar Sesión
+            {loading ? 'Cargando...' : 'Iniciar Sesion'}
           </button>
 
           <p className="text-sm text-gray-600 text-center mt-3">
