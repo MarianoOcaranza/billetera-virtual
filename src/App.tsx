@@ -3,14 +3,16 @@ import Login from "./pages/Login"
 import Root from "./pages/Root"
 import Register from "./pages/Register"
 import Recovery from "./pages/Recovery"
+import Landing from "./pages/Landing"
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Root/>}/>
+      <Route path='/' element={<Landing/>} />
+      <Route path="/dashboard" element={<Root/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/register" element={<Register/>}/>
-        <Route path="/recovery" element={<Recovery/>}/>
+      <Route path="/recovery" element={<Recovery/>}/>
     </Routes>
   )
 }
