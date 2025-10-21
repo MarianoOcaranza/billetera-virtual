@@ -9,7 +9,8 @@ import {
   Hash,
   AlertCircle
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../stores/authStore";
 
 type RegisterForm = {
   username: string;
@@ -17,9 +18,9 @@ type RegisterForm = {
   email: string;
   password: string;
   repeatPassword: string;
-  firstName: string;
-  lastName: string;
-  birthday: string;
+  name: string;
+  lastname: string;
+  birthdate: string;
   phone: string;
 };
 
@@ -29,9 +30,9 @@ const initialState: RegisterForm = {
   email: "",
   password: "",
   repeatPassword: "",
-  firstName: "",
-  lastName: "",
-  birthday: "",
+  name: "",
+  lastname: "",
+  birthdate: "",
   phone: "",
 };
 
@@ -39,9 +40,11 @@ const inputClass = "w-full border border-gray-200 bg-white/90 p-3 rounded-lg tex
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<RegisterForm>(initialState);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string[]>([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const {register, loading} = useAuthStore();
+  const navigate = useNavigate();
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target;
@@ -57,16 +60,24 @@ const Register: React.FC = () => {
     return null;
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const validationError = validate();
     if (validationError) {
-      setError(validationError);
+      setError([validationError]);
       return;
     }
-    setError("");
-    console.log("Registro:", formData);
-    setFormData(initialState);
+    
+    const result = await register(formData);
+
+    if (!result.success) {
+      setError(Object.values(result.error));
+      return
+    }
+
+    setError([]);
+    navigate('/');
+    
   };
 
   return (
@@ -83,11 +94,17 @@ const Register: React.FC = () => {
         </header>
 
         <form onSubmit={handleSubmit} className="grid gap-4">
-          {error && (
-            <div className="flex items-start gap-3 bg-red-50 border border-red-100 text-red-600 px-4 py-2 rounded-md">
-              <AlertCircle size={18} />
-              <span className="text-sm">{error}</span>
-            </div>
+          {error && error.length > 0 && (
+            <>
+              {error.map((err, i) => (
+                <ul  key={i} className="text-red-500 text-sm mt-2">
+                <div className="flex items-start gap-3 bg-red-50 border border-red-100 text-red-600 px-4 py-2 rounded-md">
+                  <AlertCircle size={18} />
+                  <span className="text-sm">{err}</span>
+                </div>     
+                </ul>         
+              ))}
+            </>
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -97,8 +114,8 @@ const Register: React.FC = () => {
                 Nombre
               </label>
               <input
-                name="firstName"
-                value={formData.firstName}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 placeholder="Tu nombre"
                 className={inputClass}
@@ -112,8 +129,8 @@ const Register: React.FC = () => {
                 Apellido
               </label>
               <input
-                name="lastName"
-                value={formData.lastName}
+                name="lastname"
+                value={formData.lastname}
                 onChange={handleChange}
                 placeholder="Tu apellido"
                 className={inputClass}
@@ -178,9 +195,9 @@ const Register: React.FC = () => {
                 Fecha de nacimiento
               </label>
               <input
-                name="birthday"
+                name="birthdate"
                 type="date"
-                value={formData.birthday}
+                value={formData.birthdate}
                 onChange={handleChange}
                 className={inputClass}
                 required
@@ -272,8 +289,9 @@ const Register: React.FC = () => {
             <button
               type="submit"
               className="w-full p-3 rounded-xl bg-[#39AAAA] text-white font-semibold hover:bg-[#2d8c8c] transition-transform duration-150 hover:scale-105 shadow-md"
+              disabled={loading}
             >
-              Registrarse
+              {loading ? 'Cargando...' : 'Registrarse'}
             </button>
 
             <p className="text-sm text-gray-600 text-center mt-3">

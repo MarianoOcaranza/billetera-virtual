@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { Eye, EyeOff, LogIn } from "lucide-react";
-import { Link } from "react-router";
+import { AlertCircle, Eye, EyeOff, LogIn } from "lucide-react";
+import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../stores/authStore";
 
 const Login: React.FC = () => {
-  const [formError, setFormError] = useState("");
+  const [formError, setFormError] = useState<string[]>([]);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-  const {login, error, loading} = useAuthStore()
+  const {login, loading} = useAuthStore()
+  const navigate = useNavigate()
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const { name, value } = event.target;
@@ -23,14 +24,19 @@ const Login: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formData.username === "" || formData.password === "") {
-      setFormError("Por favor complete todos los campos");
+      setFormError(["Por favor complete todos los campos"]);
       return;
     }
-    setFormError("");
-    
-    await login(formData);
+
+    const result = await login(formData);
+
+    if (!result.success) {
+      setFormError(Object.values(result.error));
+      return
+    }
 
     setFormData({ username: "", password: "" });
+    navigate("/dashboard")
   };
 
   return (
@@ -106,17 +112,16 @@ const Login: React.FC = () => {
             </div>
           </div>
 
-          {formError && (
-            <p className="text-red-500 text-sm text-center bg-red-50 border border-red-200 py-2 rounded-md">
-              {formError}
-            </p>
+          {formError && formError.length > 0 && (
+            <ul className="text-red-500 text-sm mt-2">
+              {formError.map((err, i) => (
+                <div key={i} className="flex items-start gap-3 bg-red-50 border border-red-100 text-red-600 px-4 py-2 rounded-md">
+                  <AlertCircle size={18} />
+                  <span className="text-sm">{err}</span>
+                </div>                ))}
+            </ul>
           )}
 
-          {error && (
-            <p className="text-red-500 text-sm text-center bg-red-50 border border-red-200 py-2 rounded-md">
-              {error}
-            </p>
-          )}
 
           <button
             type="submit"
