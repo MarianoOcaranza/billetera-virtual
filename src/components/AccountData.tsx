@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, ArrowDownCircle, ArrowUpCircle } from "lucide-react";
+import { Link } from "react-router";
 
 interface Props {
   firstName: string;
@@ -35,13 +36,14 @@ const AccountData: React.FC<Props> = ({ firstName, balance }) => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-        <button
+        <Link
+          to='/ingresar'
           type="button"
           className="flex items-center justify-center gap-2 p-3 rounded-xl bg-[#39AAAA] text-white font-semibold hover:bg-[#2d8c8c] transition-transform duration-150 hover:scale-105 shadow-md"
         >
           <ArrowDownCircle size={22} />
           Ingresar dinero
-        </button>
+        </Link>
 
         <button
           type="button"
