@@ -18,10 +18,10 @@ const Root: React.FC = () => {
 	}
 
 	return (
-		<div className="min-h-[calc(100vh-64px)] flex flex-col lg:flex-row gap-8 items-stretch justify-center bg-[#f5f5f5] px-6 py-10">
+		<div className="min-h-[calc(100vh-64px)] flex flex-col lg:flex-row gap-8 items-stretch justify-center px-6 py-10">
 
 			<div className="flex-1 lg:flex-[0.7]">
-				<AccountData name={user.name} balance={user.balance} />
+				<AccountData name={user.name} balance={user.balance} alias={user.alias} onBalanceUpdate={getUser} />
 			</div>
 
 			<div className="flex-1 lg:flex-[0.3]">

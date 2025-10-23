@@ -23,6 +23,8 @@ const Login: React.FC = () => {
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		formData.username = formData.username.trim()
+
 		if (formData.username === "" || formData.password === "") {
 			setFormError(["Por favor complete todos los campos"]);
 			return;
@@ -40,7 +42,7 @@ const Login: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-[#f5f5f5] px-4">
+		<div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4">
 			<div className="bg-white/80 backdrop-blur-md border border-gray-200 shadow-2xl rounded-2xl p-10 w-full max-w-md hover:shadow-[#39AAAA]/30 hover:shadow-2xl transition-all">
 
 				<div className="flex flex-col items-center mb-8">

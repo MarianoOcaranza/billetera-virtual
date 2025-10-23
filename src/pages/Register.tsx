@@ -62,6 +62,14 @@ const Register: React.FC = () => {
 
 	const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
+
+		formData.username = formData.username.trim()
+		formData.dni = formData.dni.trim()
+		formData.email = formData.email.trim()
+		formData.name = formData.name.trim()
+		formData.lastname = formData.lastname.trim()
+		formData.phone = formData.phone.trim()
+
 		const validationError = validate();
 		if (validationError) {
 			setError([validationError]);
@@ -81,7 +89,7 @@ const Register: React.FC = () => {
 	};
 
 	return (
-		<div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-[#f5f5f5] px-4 py-8">
+		<div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-8">
 			<div className="w-full max-w-3xl bg-white/80 backdrop-blur-md border border-gray-200 shadow-2xl rounded-2xl p-8 hover:shadow-[#39AAAA]/30 transition">
 				<header className="flex flex-col items-center mb-6">
 					<div className="bg-[#39AAAA]/10 p-3 rounded-full mb-3">
