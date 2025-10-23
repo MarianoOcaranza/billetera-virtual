@@ -69,7 +69,7 @@ const Header: React.FC = () => {
 							</>
 							)}
 							{isLogged && (
-								<div className="flex justify-center items-center gap-3">
+								<Link to="/profile" className="flex justify-center items-center gap-3">
 									<span className='flex justify-center items-center'>
 										<User size={18}/>
 										<p>{username}</p>
@@ -83,7 +83,7 @@ const Header: React.FC = () => {
 												Cerrar sesión
 											</span>
 									</button>
-								</div>
+								</Link>
 							)}
 						</ul>
 					</nav>
@@ -112,7 +112,7 @@ const Header: React.FC = () => {
 						</>
 						)}
 						{isLogged && (
-							<div className="flex flex-col justify-center items-center gap-3">
+							<Link to="/profile" className="flex flex-col justify-center items-center gap-3">
 								<span className='flex justify-center items-center'>
 									<User size={18}/>
 									<p>{username}</p>
@@ -126,7 +126,7 @@ const Header: React.FC = () => {
 											Cerrar sesión
 										</span>
 								</button>
-							</div>
+							</Link>
 						)}
 					</ul>
 				</nav>

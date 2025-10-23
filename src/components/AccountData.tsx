@@ -5,10 +5,34 @@ import { Link } from "react-router";
 interface Props {
 	name: string;
 	balance: number;
+	alias: string;
+	onBalanceUpdate?: ()=> void;
 }
 
-const AccountData: React.FC<Props> = ({ name, balance }) => {
+const AccountData: React.FC<Props> = ({ name, balance, alias, onBalanceUpdate }) => {
 	const [showBalance, setShowBalance] = useState(true);
+	const [success, setSuccess] = useState(false)
+
+	const cargarSaldoPrueba = async () => {
+		try {
+			const res = await fetch(`${import.meta.env.VITE_API_URL}/payments/amount`, {
+				method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({alias: alias, amount: 5000, description: 'recarga chewallet'})
+			})
+			
+			if(res.ok) {
+				setSuccess(true)
+				onBalanceUpdate?.()
+			}
+			return;
+		} catch {
+			setSuccess(false)
+		}
+	}
+
+
 
 	return (
 		<div className="flex flex-col justify-center items-center w-full h-full bg-white/80 backdrop-blur-md shadow-2xl rounded-2xl p-8 border border-gray-200 transition-all hover:shadow-[#39AAAA]/30 hover:shadow-2xl">
@@ -19,7 +43,7 @@ const AccountData: React.FC<Props> = ({ name, balance }) => {
 			<div className="relative w-full text-center mb-10">
 				<div className="flex items-center justify-center gap-2">
 					<h2 className="text-3xl font-semibold text-gray-700">
-						{showBalance ? `$${balance.toLocaleString()}` : "••••••"}
+						{showBalance ? `$${balance.toLocaleString()}` : "******"}
 					</h2>
 					<button
 						onClick={() => setShowBalance(!showBalance)}
@@ -54,7 +78,10 @@ const AccountData: React.FC<Props> = ({ name, balance }) => {
 					Transferir dinero
 				</Link>
 			</div>
+			<button onClick={() => cargarSaldoPrueba()} className="mt-5 underline text-blue-500">Cargar 5000 pesos de prueba</button>
+			<p className='text-green-500'>{success ? 'Ok. recarga la pagina para ver los 5000 agregados' : ''}</p>
 		</div>
+		
 	);
 };
 
