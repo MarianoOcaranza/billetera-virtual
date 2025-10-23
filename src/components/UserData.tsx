@@ -1,5 +1,6 @@
 import React from "react";
-import { User, AtSign, Hash, Copy, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { User, AtSign, Hash, Copy, ArrowUpRight, ArrowDownRight, ArrowRightLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface Props {
 	alias: string;
@@ -33,6 +34,7 @@ const UserData: React.FC<Props> = ({ alias, cvu, name, lastName, recentTransacti
 						<span className="font-medium">Alias:</span>
 					</div>
 					<span className="text-gray-600">{alias}</span>
+					<Link to="/profile" className="text-[#39AAAA]">editar</Link>
 				</div>
 
 				<div className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
@@ -44,7 +46,7 @@ const UserData: React.FC<Props> = ({ alias, cvu, name, lastName, recentTransacti
 						<span className="text-gray-600 truncate max-w-[140px] md:max-w-[200px]">{cvu}</span>
 						<button
 							onClick={() => handleCopy(cvu)}
-							className="p-1 hover:bg-gray-100 rounded-full transition"
+							className="p-1 hover:bg-[#39AAAA]/20 cursor-pointer rounded-full transition"
 							title="Copiar CVU"
 						>
 							<Copy size={16} className="text-gray-500" />
@@ -52,7 +54,6 @@ const UserData: React.FC<Props> = ({ alias, cvu, name, lastName, recentTransacti
 					</div>
 				</div>
 
-				{/* Últimos movimientos */}
 				<div className="mt-6 w-full">
 					<h3 className="text-lg font-medium text-gray-800 mb-3">Últimos movimientos</h3>
 					<div className="flex flex-col gap-3">
@@ -91,9 +92,16 @@ const UserData: React.FC<Props> = ({ alias, cvu, name, lastName, recentTransacti
 									</div>
 								);
 							}
-
 							return null;
 						})}
+						<Link
+							to='/movimientos'
+							type="button"
+							className="flex items-center justify-center gap-2 p-3 rounded-xl bg-[#39AAAA] text-white font-semibold hover:bg-[#2d8c8c] transition-transform duration-150 hover:scale-105 shadow-md"
+						>
+							<ArrowRightLeft size={22} />
+							Ver todos mis movimientos
+						</Link>
 					</div>
 				</div>
 			</div>

@@ -29,7 +29,7 @@ const Transfer: React.FC = () => {
         setSuccess(null)
 
         const errs: string[] = []
-        if (!alias.trim()) errs.push('Por favor ingrese el alias de la cuenta destino')
+        if (!alias.trim()) errs.push('Por favor ingrese el alias o el CVU de la cuenta destino')
         if (!amount || amount <= 0) errs.push('Ingrese un monto mayor a 0')
 
         if (errs.length) {
@@ -72,7 +72,7 @@ const Transfer: React.FC = () => {
     }
 
     return (
-        <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-[#f5f5f5] px-4">
+        <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4">
             <div className="bg-white/80 backdrop-blur-md border border-gray-200 shadow-2xl rounded-2xl p-10 w-full max-w-2xl hover:shadow-[#39AAAA]/30 hover:shadow-2xl transition-all">
 
                 <div className="flex items-center gap-4 mb-6">
@@ -81,13 +81,13 @@ const Transfer: React.FC = () => {
                     </div>
                     <div>
                         <h2 className="text-2xl font-semibold text-gray-800">Transferir dinero</h2>
-                        <p className="text-sm text-gray-500">Envía dinero a otra cuenta por alias</p>
+                        <p className="text-sm text-gray-500">Envía dinero a otra cuenta por alias o por CVU</p>
                     </div>
                 </div>
 
                 <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-6">
                     <div>
-                        <label className="text-sm font-medium text-gray-700 mb-2 block">Alias de cuenta destino</label>
+                        <label className="text-sm font-medium text-gray-700 mb-2 block">Alias o CVU de cuenta destino</label>
                         <input
                             type="text"
                             value={alias}

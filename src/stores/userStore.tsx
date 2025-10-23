@@ -43,7 +43,6 @@ export const useUserStore = create<UserStore>()(
           if (res.ok) {
             const data = await res.json();
             set({user: data});
-            console.log(data)
           }
         } catch {
           throw new Error("Error inesperado tratando de obtener los datos del usuario");
