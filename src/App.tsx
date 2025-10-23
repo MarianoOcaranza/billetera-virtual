@@ -1,17 +1,43 @@
-import { Route, Routes } from "react-router"
+import { Navigate, Route, Routes } from "react-router"
 import Login from "./pages/Login"
 import Root from "./pages/Root"
 import Register from "./pages/Register"
 import Recovery from "./pages/Recovery"
-import Landing from "./pages/Landing"
 import Deposit from "./pages/Deposit"
+import Transfer from "./pages/Transfer"
+import ProtectedRoute from "./components/ProtectedRoute"
+import { useAuthStore } from "./stores/authStore"
+import { useEffect } from "react"
 
 function App() {
+  const { checkAuth, checked, isLogged } = useAuthStore()
+
+  useEffect(() => {
+    checkAuth()
+  }, [checkAuth])
+
+  if (!checked) {
+    return <p>cargando...</p>
+  }
+
   return (
     <Routes>
-      <Route path='/' element={<Landing/>} />
-      <Route path="/dashboard" element={<Root/>}/>
-      <Route path="/ingresar" element={<Deposit/>}/>
+      <Route path='/' element={isLogged ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+      <Route path="/dashboard" element={
+        <ProtectedRoute>
+          <Root />
+        </ProtectedRoute>
+      } />
+      <Route path="/ingresar" element={
+        <ProtectedRoute>
+          <Deposit />
+        </ProtectedRoute>
+      } />
+      <Route path="/transferir" element={
+        <ProtectedRoute>
+          <Transfer />
+        </ProtectedRoute>
+      } />
       <Route path="/login" element={<Login/>}/>
       <Route path="/register" element={<Register/>}/>
       <Route path="/recovery" element={<Recovery/>}/>
