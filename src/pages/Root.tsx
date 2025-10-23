@@ -1,26 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AccountData from "../components/AccountData";
 import UserData from "../components/UserData";
+import { useUserStore } from "../stores/userStore";
+import { Navigate } from "react-router";
 
 const Root: React.FC = () => {
-  const firstName = "Mariano";
-  const lastName = "Ocaranza"
-  const cvu = "1234"
-  const alias = "los.piojos.87"
-  const balance = 10000;
+	const { user, loadingUser, hydrated, getUser } = useUserStore();
 
-  return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col lg:flex-row gap-8 items-stretch justify-center bg-[#f5f5f5] px-6 py-10">
+	useEffect(() => {
+		getUser();
+	}, []);
 
-      <div className="flex-1 lg:flex-[0.7]">
-        <AccountData firstName={firstName} balance={balance} />
-      </div>
+	if (!hydrated || loadingUser) return <p>Por favor, espere...</p>
 
-      <div className="flex-1 lg:flex-[0.3]">
-        <UserData firstName={firstName} lastName={lastName} cvu={cvu} alias={alias}/>
-      </div>
-    </div>
-  );
+	if(!user) {
+		return <Navigate to='/login'/>
+	}
+
+	return (
+		<div className="min-h-[calc(100vh-64px)] flex flex-col lg:flex-row gap-8 items-stretch justify-center bg-[#f5f5f5] px-6 py-10">
+
+			<div className="flex-1 lg:flex-[0.7]">
+				<AccountData name={user.name} balance={user.balance} />
+			</div>
+
+			<div className="flex-1 lg:flex-[0.3]">
+				<UserData name={user.name} lastName={user.lastname} cvu={user.cvu} alias={user.alias} recentTransactions={user.recentTransactions} />
+			</div>
+		</div>
+	);
 };
 
 export default Root;
