@@ -1,4 +1,4 @@
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, X, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
@@ -6,7 +6,7 @@ import { useAuthStore } from "../stores/authStore";
 const Header: React.FC = () => {
 	const [isMobile, setIsMobile] = useState(true);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const {isLogged, logout} = useAuthStore();
+	const {isLogged, logout, username} = useAuthStore();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -69,9 +69,21 @@ const Header: React.FC = () => {
 							</>
 							)}
 							{isLogged && (
-								<button onClick={handleLogout}>
-									logout
-								</button>
+								<div className="flex justify-center items-center gap-3">
+									<span className='flex justify-center items-center'>
+										<User size={18}/>
+										<p>{username}</p>
+									</span>
+									<button 
+										onClick={handleLogout}
+										className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-medium px-2 py-1 rounded-md shadow-sm transition-all active:scale-95"
+										>
+											<LogOut size={18} />
+											<span>
+												Cerrar sesión
+											</span>
+									</button>
+								</div>
 							)}
 						</ul>
 					</nav>
@@ -100,9 +112,21 @@ const Header: React.FC = () => {
 						</>
 						)}
 						{isLogged && (
-							<button onClick={handleLogout}>
-								logout
-							</button>
+							<div className="flex flex-col justify-center items-center gap-3">
+								<span className='flex justify-center items-center'>
+									<User size={18}/>
+									<p>{username}</p>
+								</span>
+								<button 
+									onClick={handleLogout}
+									className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-medium px-2 py-1 rounded-md shadow-sm transition-all active:scale-95"
+									>
+										<LogOut size={18} />
+										<span>
+											Cerrar sesión
+										</span>
+								</button>
+							</div>
 						)}
 					</ul>
 				</nav>
