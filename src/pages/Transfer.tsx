@@ -39,7 +39,11 @@ const Transfer: React.FC = () => {
 
         setLoading(true)
         try {
-            const payload = { alias: alias.trim(), amount: Number(amount), description }
+            const payload = { 
+                accountDestination: alias.trim(), 
+                amount: Number(amount), 
+                description: description 
+            }
             const res = await fetch(`${import.meta.env.VITE_API_URL}/payments/transfer`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
