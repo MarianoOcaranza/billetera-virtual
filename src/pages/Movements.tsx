@@ -50,7 +50,7 @@ const Movements: React.FC = () => {
                     return;
                 }
 
-                console.log(res.json())
+                console.log(data)
 
                 // data is PageDto<TransactionDto>
                 setMovements(data.content ?? []);
