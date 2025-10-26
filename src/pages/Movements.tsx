@@ -50,6 +50,8 @@ const Movements: React.FC = () => {
                     return;
                 }
 
+                console.log(res.json())
+
                 // data is PageDto<TransactionDto>
                 setMovements(data.content ?? []);
                 setMeta({
@@ -60,6 +62,7 @@ const Movements: React.FC = () => {
                     first: data.first ?? false,
                     last: data.last ?? false,
                 });
+                
             } catch (err: any) {
                 setError(err?.message ?? 'Error al obtener movimientos');
                 setMovements([]);
