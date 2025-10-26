@@ -52,6 +52,7 @@ export const useAuthStore = create<AuthState>()(
 
                     if (!res.ok) {
                         set({ error: data.details, loading: false })
+                        console.log(BACKEND_URL)
                         return { success: false, error: data.details };
                     }
 
