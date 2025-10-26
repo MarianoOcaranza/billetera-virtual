@@ -100,7 +100,7 @@ const Movements: React.FC = () => {
                         <div className="flex flex-col gap-3">
                             {movements.map((m, i) => {
                                 const isSent = m.type?.toLowerCase().includes('sent') || m.type?.toLowerCase().includes('transfer_sent');
-                                const isRecharge = !m.type;
+                                const isRecharge = !m.OriginLastname;
                                 const title = isSent ? 'Pago a' : isRecharge ? 'Recarga' : 'Transferencia de';
                                 const name = isSent ? `${m.DestinationName} ${m.DestinationLastname}` : isRecharge ? 'Mercado Pago' : `${m.OriginName} ${m.OriginLastname}`;
                                 return (
