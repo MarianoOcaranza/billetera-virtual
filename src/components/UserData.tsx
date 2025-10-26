@@ -92,6 +92,23 @@ const UserData: React.FC<Props> = ({ alias, cvu, name, lastName, recentTransacti
 									</div>
 								);
 							}
+
+							if(!tr.OriginLastname) {
+								return (
+									<div key={i} className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+										<div className="flex items-center gap-3">
+											<div className="bg-[#39AAAA]/10 p-2 rounded-full">
+												<ArrowDownRight size={18} className="text-green-500" />
+											</div>
+											<div className="text-sm">
+												<div className="font-medium">Recarga</div>
+												<div className="text-gray-600">Mercado Pago</div>
+											</div>
+										</div>
+										<div className="text-green-500 font-semibold">+ ${tr.amount}</div>
+									</div>
+								);
+							}
 							return null;
 						})}
 						<Link
