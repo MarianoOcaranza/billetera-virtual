@@ -92,7 +92,7 @@ const Deposit: React.FC = () => {
         {preferenceId && (
         <div className="mt-6 flex justify-center">
             <Wallet
-                initialization={{ preferenceId: preferenceId } }
+                initialization={{ preferenceId: preferenceId}}
             />
         </div>
         )}
