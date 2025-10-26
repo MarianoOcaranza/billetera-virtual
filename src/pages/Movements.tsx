@@ -50,6 +50,8 @@ const Movements: React.FC = () => {
                     return;
                 }
 
+                console.log(data)
+
                 setMovements(data.content ?? []);
                 setMeta({
                     page: data.page ?? 0,
