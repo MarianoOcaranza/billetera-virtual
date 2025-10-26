@@ -50,9 +50,6 @@ const Movements: React.FC = () => {
                     return;
                 }
 
-                console.log(data)
-
-                // data is PageDto<TransactionDto>
                 setMovements(data.content ?? []);
                 setMeta({
                     page: data.page ?? 0,
@@ -103,8 +100,9 @@ const Movements: React.FC = () => {
                         <div className="flex flex-col gap-3">
                             {movements.map((m, i) => {
                                 const isSent = m.type?.toLowerCase().includes('sent') || m.type?.toLowerCase().includes('transfer_sent');
-                                const title = isSent ? 'Pago a' : 'Transferencia de';
-                                const name = isSent ? `${m.DestinationName} ${m.DestinationLastname}` : `${m.OriginName} ${m.OriginLastname}`;
+                                const isRecharge = !m.type;
+                                const title = isSent ? 'Pago a' : isRecharge ? 'Recarga' : 'Transferencia de';
+                                const name = isSent ? `${m.DestinationName} ${m.DestinationLastname}` : isRecharge ? 'Mercado Pago' : `${m.OriginName} ${m.OriginLastname}`;
                                 return (
                                     <div key={i} className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
                                         <div className="flex items-center gap-3">
