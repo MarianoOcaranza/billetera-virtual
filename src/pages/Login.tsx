@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AlertCircle, Eye, EyeOff, LogIn } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../stores/authStore";
 
 const Login: React.FC = () => {
