@@ -59,7 +59,7 @@ const Header: React.FC = () => {
 								to="/login"
 								className="hover:underline underline-offset-4 hover:text-gray-100 transition-all duration-200"
 							>
-								Login
+								Iniciar Sesion
 							</Link><Link
 								to="/register"
 								className="hover:underline underline-offset-4 hover:text-gray-100 transition-all duration-200"
