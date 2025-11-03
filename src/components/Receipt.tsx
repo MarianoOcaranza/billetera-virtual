@@ -22,8 +22,8 @@ const prettyDate = (iso?: string) => {
   }
 }
 
-// Modal-style centered receipt. No download functionality (removed per request).
-const ReceiptCard: React.FC<{ receipt: Receipt; onClose?: () => void }> = ({ receipt, onClose }) => {
+// Receipt component. Can render as a modal (default) or inline/page when `inline` is true.
+const ReceiptCard: React.FC<{ receipt: Receipt; onClose?: () => void; inline?: boolean }> = ({ receipt, onClose, inline = false }) => {
   const [generating, setGenerating] = useState(false)
 
   const handlePdfDownload = async () => {
@@ -78,6 +78,65 @@ const ReceiptCard: React.FC<{ receipt: Receipt; onClose?: () => void }> = ({ rec
       setGenerating(false)
     }
   }
+  if (inline) {
+    return (
+      <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-2xl mx-auto">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-2xl font-semibold text-gray-800">Comprobante de pago</h3>
+            <p className="text-sm text-gray-500 mt-1">Detalle de la operación</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePdfDownload}
+              disabled={generating}
+              className={`px-3 py-1 rounded-md text-sm ${generating ? 'bg-neutral-200 text-gray-500 cursor-not-allowed' : 'bg-[#39AAAA] text-white'}`}
+            >
+              {generating ? 'Generando PDF...' : 'Descargar PDF'}
+            </button>
+            {onClose && (
+              <button onClick={onClose} className="px-3 py-1 bg-white border border-gray-200 rounded-md text-sm">Volver</button>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
+          <div>
+            <div className="text-xs text-gray-500">Operación</div>
+            <div className="font-medium">{receipt.operationNumber}</div>
+          </div>
+
+          <div>
+            <div className="text-xs text-gray-500">Fecha</div>
+            <div className="font-medium">{prettyDate(receipt.date)}</div>
+          </div>
+
+          <div>
+            <div className="text-xs text-gray-500">Origen</div>
+            <div className="font-medium">{receipt.originName} {receipt.originLastname}</div>
+            <div className="text-xs text-gray-400">{receipt.originCvu}</div>
+          </div>
+
+          <div>
+            <div className="text-xs text-gray-500">Destino</div>
+            <div className="font-medium">{receipt.destinationName} {receipt.destinationLastname}</div>
+            <div className="text-xs text-gray-400">{receipt.destinationCvu}</div>
+          </div>
+
+          <div className="col-span-1 sm:col-span-2">
+            <div className="text-xs text-gray-500">Descripción</div>
+            <div className="font-medium">{receipt.description ?? '-'}</div>
+          </div>
+
+          <div>
+            <div className="text-xs text-gray-500">Monto</div>
+            <div className="font-medium text-xl">{new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 2 }).format(receipt.amount)}</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
