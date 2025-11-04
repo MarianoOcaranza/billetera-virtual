@@ -10,12 +10,40 @@ const Recovery: React.FC = () => {
 
 	const handleEmailSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
 		e.preventDefault();
-		setMessage("Se ha enviado un código de verificación a su correo " + emailSent);
+		setMessage("");
 		setLoading(true);
-		setTimeout(() => {
-			setLoading(false);
-			navigate("/login");
-		}, 3000);
+
+		const sendRequest = async () => {
+			try {
+				const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/forgot-password`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email: emailSent }),
+				});
+
+				const text = await res.text();
+				let data: any = null;
+				if (text) {
+					try { data = JSON.parse(text) } catch { data = text }
+				}
+
+				if (!res.ok) {
+					const msg = data?.message ?? data ?? res.statusText
+					setMessage(String(msg))
+					return
+				}
+
+				setMessage('Se ha enviado un código de verificación a su correo ' + emailSent)
+				// small delay so user sees confirmation, then navigate to login
+				setTimeout(() => navigate('/login'), 1800)
+			} catch (err: any) {
+				setMessage(err?.message ?? 'Error enviando correo de recuperación')
+			} finally {
+				setLoading(false)
+			}
+		}
+
+		sendRequest()
 	};
 
 	return (
