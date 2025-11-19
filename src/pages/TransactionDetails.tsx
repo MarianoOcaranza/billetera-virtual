@@ -40,13 +40,13 @@ const TransactionDetails: React.FC = () => {
         // Map backend response to ReceiptType (safe fallbacks)
         const backend = data ?? {}
         const built: ReceiptType = {
-          operationNumber: backend.operationNumber ?? backend.transactionId ?? backend.operationId ?? transactionId,
-          originCvu: backend.originCvu ?? backend.origin_cvu ?? '---',
-          originName: backend.originName ?? backend.origin_name ?? '---',
-          originLastname: backend.originLastname ?? backend.origin_lastname ?? '---',
-          destinationCvu: backend.destinationCvu ?? backend.destination_cvu ?? '---',
-          destinationName: backend.destinationName ?? backend.destination_name ?? '---',
-          destinationLastname: backend.destinationLastname ?? backend.destination_lastname ?? '---',
+          operationNumber: backend.operationNumber ?? '---',
+          originCvu: backend.originCvu ?? '---',
+          originName: backend.originName ?? '---',
+          originLastname: backend.originLastname ??  '---',
+          destinationCvu: backend.destinationCvu ?? '---',
+          destinationName: backend.destinationName ??  '---',
+          destinationLastname: backend.destinationLastname ?? '---',
           amount: Number(backend.amount ?? 0),
           date: backend.date ?? new Date().toISOString(),
           description: backend.description ?? ''
