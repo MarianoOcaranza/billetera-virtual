@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { ArrowUpRight, Send } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import ReceiptCard from '../components/Receipt'
+import type { Receipt as ReceiptType } from '../components/Receipt'
+import { useUserStore } from '../stores/userStore'
 
 const formatCurrency = (value: number) => {
     if (isNaN(value) || value === 0) return '$0,00'
@@ -13,8 +16,10 @@ const Transfer: React.FC = () => {
     const [description, setDescription] = useState('')
     const [errors, setErrors] = useState<string[]>([])
     const [success, setSuccess] = useState<string | null>(null)
+    const [receipt, setReceipt] = useState<ReceiptType | null>(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+    const user = useUserStore(state => state.user)
 
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value
@@ -63,6 +68,24 @@ const Transfer: React.FC = () => {
                 return
             }
 
+            // Try to build a receipt from backend response. If backend doesn't return the fields yet,
+            // use sensible fallbacks (current user and submitted payload).
+            const backend = data ?? {}
+
+            const builtReceipt: ReceiptType = {
+                operationNumber: backend.operationNumber ?? backend.operationId ?? `TX-${Date.now()}`,
+                originCvu: backend.originCvu ?? user?.cvu ?? '---',
+                originName: backend.originName ?? user?.name ?? '---',
+                originLastname: backend.originLastname ?? user?.lastname ?? '---',
+                destinationCvu: backend.destinationCvu ?? backend.accountDestination ?? alias.trim(),
+                destinationName: backend.destinationName ?? backend.destinationFirstName ?? '---',
+                destinationLastname: backend.destinationLastname ?? backend.destinationLastName ?? '---',
+                amount: Number(backend.amount ?? amount),
+                date: backend.date ?? new Date().toISOString(),
+                description: backend.description ?? description ?? '',
+            }
+
+            setReceipt(builtReceipt)
             setSuccess(`Transferencia realizada a ${alias} por ${formatCurrency(amount)}`)
             setAlias('')
             setAmount(0)
@@ -77,7 +100,17 @@ const Transfer: React.FC = () => {
 
     return (
         <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4">
-            <div className="bg-white/80 backdrop-blur-md border border-gray-200 shadow-2xl rounded-2xl p-10 w-full max-w-2xl hover:shadow-[#39AAAA]/30 hover:shadow-2xl transition-all">
+            <div className="relative bg-white/80 backdrop-blur-md border border-gray-200 shadow-2xl rounded-2xl p-10 w-full max-w-2xl hover:shadow-[#39AAAA]/30 hover:shadow-2xl transition-all">
+
+                    {loading && (
+                        <div className="absolute inset-0 z-20 flex items-center justify-center">
+                            <div className="absolute inset-0 bg-black/30 rounded-2xl" />
+                            <div className="relative z-30 flex flex-col items-center gap-4 bg-white/90 border border-gray-200 p-6 rounded-lg">
+                                <div className="border-4 border-gray-200 border-t-[#39AAAA] rounded-full w-12 h-12 animate-spin" />
+                                <div className="text-sm font-medium text-gray-700">Procesando transferencia...</div>
+                            </div>
+                        </div>
+                    )}
 
                 <div className="flex items-center gap-4 mb-6">
                     <div className="bg-[#39AAAA]/10 p-3 rounded-full">
@@ -96,6 +129,7 @@ const Transfer: React.FC = () => {
                             type="text"
                             value={alias}
                             onChange={(e) => setAlias(e.target.value)}
+                            disabled={loading}
                             placeholder="alias.ejemplo"
                             className="border border-gray-300 bg-white/90 p-3 rounded-lg w-full text-sm focus:outline-none focus:ring-2 focus:ring-[#39AAAA] transition"
                         />
@@ -109,6 +143,7 @@ const Transfer: React.FC = () => {
                                 type="text"
                                 value={amount === 0 ? '$0' : `$${amount}`}
                                 onChange={handleAmountChange}
+                                disabled={loading}
                                 placeholder="0"
                                 className="appearance-none w-full text-6xl font-extrabold text-gray-800 text-center p-6 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#39AAAA] transition"
                             />
@@ -123,6 +158,7 @@ const Transfer: React.FC = () => {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Concepto, mensaje..."
+                            disabled={loading}
                             className="border border-gray-300 bg-white/90 p-3 rounded-lg w-full text-sm focus:outline-none focus:ring-2 focus:ring-[#39AAAA] transition h-24"
                         />
                     </div>
@@ -141,11 +177,16 @@ const Transfer: React.FC = () => {
                         <div className="text-green-600 text-center font-medium">{success}</div>
                     )}
 
+                    {receipt && (
+                        <ReceiptCard receipt={receipt} onClose={() => { setReceipt(null); navigate('/dashboard') }} />
+                    )}
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <button
                             type="button"
                             onClick={() => navigate('/dashboard')}
-                            className="w-full p-3 rounded-xl bg-white text-gray-700 border border-gray-200 hover:shadow-md transition"
+                            className={`w-full p-3 rounded-xl bg-white text-gray-700 border border-gray-200 transition ${loading ? 'opacity-60 cursor-not-allowed' : 'hover:shadow-md'}`}
+                            disabled={loading}
                         >
                             Cancelar
                         </button>
@@ -153,7 +194,7 @@ const Transfer: React.FC = () => {
                         <button
                             type="button"
                             onClick={() => handleSubmit()}
-                            className={`w-full flex items-center justify-center gap-2 p-3 rounded-xl ${loading ? 'bg-neutral-400' : 'bg-[#39AAAA]'} text-white font-semibold hover:bg-[#2d8c8c] transition-transform duration-150 hover:scale-105 shadow-md`}
+                            className={`w-full flex items-center justify-center gap-2 p-3 rounded-xl text-white font-semibold shadow-md transition-transform duration-150 ${loading ? 'bg-neutral-400 opacity-80 cursor-not-allowed' : 'bg-[#39AAAA] hover:bg-[#2d8c8c] hover:scale-105'}`}
                             disabled={loading}
                         >   
                             <Send size={18} />

@@ -10,6 +10,8 @@ import { useAuthStore } from "./stores/authStore"
 import { useEffect } from "react"
 import Profile from "./pages/Profile"
 import Movements from "./pages/Movements"
+import TransactionDetails from "./pages/TransactionDetails"
+import ResetPassword from "./pages/ResetPassword"
 
 function App() {
   const { checkAuth, checked, isLogged } = useAuthStore()
@@ -50,6 +52,12 @@ function App() {
           <Movements />
         </ProtectedRoute>
       } />
+      <Route path="/transactions/:transactionId" element={
+        <ProtectedRoute>
+          <TransactionDetails />
+        </ProtectedRoute>
+      } />
+      <Route path="/reset-password" element={<ResetPassword/>} />
       <Route path="/login" element={<Login/>}/>
       <Route path="/register" element={<Register/>}/>
       <Route path="/recovery" element={<Recovery/>}/>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 interface Movement {
@@ -9,6 +10,7 @@ interface Movement {
     date: string;
     type: string;
     amount: number;
+    transactionId: string;
 }
 
 interface PageMeta {
@@ -50,8 +52,6 @@ const Movements: React.FC = () => {
                     return;
                 }
 
-                console.log(data)
-
                 setMovements(data.content ?? []);
                 setMeta({
                     page: data.page ?? 0,
@@ -85,6 +85,10 @@ const Movements: React.FC = () => {
         if (page >= meta.totalPages) return;
         setPage((p) => p + 1);
     };
+    
+    const navigate = useNavigate()
+
+    // kept for backward compatibility — prefer navigating directly in the click handler
 
     return (
         <div className="min-h-[calc(100vh-64px)] px-4 py-6">
@@ -105,8 +109,9 @@ const Movements: React.FC = () => {
                                 const isRecharge = !m.OriginLastname;
                                 const title = isSent ? 'Pago a' : isRecharge ? 'Recarga' : 'Transferencia de';
                                 const name = isSent ? `${m.DestinationName} ${m.DestinationLastname}` : isRecharge ? 'Mercado Pago' : `${m.OriginName} ${m.OriginLastname}`;
+                                const key = m.transactionId;
                                 return (
-                                    <div key={i} className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                                    <div key={i} data-id={key} onClick={() => navigate(`/transactions/${key}`)} className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-200 hover:shadow-md cursor-pointer">
                                         <div className="flex items-center gap-3">
                                             <div className={`p-2 rounded-full ${isSent ? 'bg-red-100' : 'bg-green-100'}`}>
                                                 {isSent ? <ArrowUpRight size={18} className="text-red-500" /> : <ArrowDownRight size={18} className="text-green-500" />}
