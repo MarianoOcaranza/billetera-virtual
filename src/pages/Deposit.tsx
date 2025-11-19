@@ -17,19 +17,22 @@ const Deposit: React.FC = () => {
         setPreferenceId(null);
 
         try {
+            
             const res = await fetch(`${import.meta.env.VITE_API_URL}/payments/checkout`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ cvu, amount }),
                 credentials: 'include'
             });
-            console.log(res.body);
             if (!res.ok) {
                 const errText = await res.text();
                 throw new Error(errText || "Error al crear la preferencia");
             }   
+            console.log(JSON.stringify({ cvu, amount }));
 
             const data = await res.json();
+            console.log(data);
+            
             setPreferenceId(data.preferenceId);
             setMessage("✅ Preferencia creada. Podés proceder al pago.");
         } catch (err: unknown) {
