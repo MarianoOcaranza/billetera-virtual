@@ -24,15 +24,16 @@ const Deposit: React.FC = () => {
                 body: JSON.stringify({ cvu, amount }),
                 credentials: 'include'
             });
-            if (!res.ok) {
-                const errText = await res.text();
-                throw new Error(errText || "Error al crear la preferencia");
-            }   
+
             console.log(JSON.stringify({ cvu, amount }));
 
+            if (!res.ok) {
+                const errText = await res.text();
+                console.log(res.json);
+                throw new Error(errText || "Error al crear la preferencia");
+            }   
+
             const data = await res.json();
-            console.log(data);
-            
             setPreferenceId(data.preferenceId);
             setMessage("✅ Preferencia creada. Podés proceder al pago.");
         } catch (err: unknown) {
