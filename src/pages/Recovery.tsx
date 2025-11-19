@@ -24,7 +24,13 @@ const Recovery: React.FC = () => {
 				const text = await res.text();
 				let data: any = null;
 				if (text) {
-					try { data = JSON.parse(text) } catch { data = text }
+					try { 
+						data = JSON.parse(text)
+						console.log(data);
+					 } catch { 
+						data = text
+						console.log(data)
+					}
 				}
 
 				if (!res.ok) {
@@ -38,8 +44,9 @@ const Recovery: React.FC = () => {
 				setTimeout(() => navigate('/login'), 1800)
 			} catch (err: any) {
 				setMessage(err?.message ?? 'Error enviando correo de recuperación')
+				console.log(err)
 			} finally {
-				setLoading(false)
+				setLoading(false);
 			}
 		}
 
