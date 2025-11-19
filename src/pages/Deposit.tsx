@@ -54,7 +54,7 @@ const Deposit: React.FC = () => {
                 htmlFor="cvu"
                 className="block text-sm font-medium text-gray-700"
                 >
-                    CVU
+                    Tu CVU o Alias
                 </label>
                 <input
                     id="cvu"
