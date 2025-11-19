@@ -23,7 +23,7 @@ const Deposit: React.FC = () => {
                 body: JSON.stringify({ cvu, amount }),
                 credentials: 'include'
             });
-            console.log({ cvu, amount });
+            console.log(res.body);
             if (!res.ok) {
                 const errText = await res.text();
                 throw new Error(errText || "Error al crear la preferencia");
